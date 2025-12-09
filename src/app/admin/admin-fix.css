@@ -1,0 +1,50 @@
+/* Fix específico para prevenir scroll horizontal en /admin */
+
+/* Forzar que todo esté contenido */
+html,
+body,
+#__next,
+#__next > div {
+  overflow-x: hidden !important;
+  max-width: 100vw !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Asegurar que todos los elementos no desborden */
+* {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Contenedores específicos */
+[class*="admin"],
+[class*="Admin"] {
+  overflow-x: hidden !important;
+  max-width: 100% !important;
+  width: 100% !important;
+}
+
+/* Modales fixed */
+[class*="fixed"] {
+  left: 0 !important;
+  right: 0 !important;
+  max-width: 100vw !important;
+  width: 100vw !important;
+}
+
+/* Flex y Grid containers */
+.flex,
+.flex-row,
+.flex-col,
+.grid {
+  max-width: 100% !important;
+  overflow-x: hidden !important;
+  min-width: 0 !important;
+}
+
+
+
+
+
+

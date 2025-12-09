@@ -1,36 +1,124 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# FRANTANA - Motor de Reservas Musical
 
-## Getting Started
+Un sistema de reservas moderno y elegante diseñado específicamente para el artista FRANTANA. Incluye un motor de reservas completo con datepicker y timepicker personalizados, diseño responsive y una interfaz profesional que refleja la calidad artística.
 
-First, run the development server:
+## 🎵 Características
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Motor de Reservas Completo**: Sistema de reservas paso a paso con validación
+- **Datepicker Personalizado**: Calendario interactivo con diseño moderno
+- **Timepicker Intuitivo**: Selección de horarios disponibles
+- **Diseño Responsive**: Optimizado para todos los dispositivos
+- **Animaciones Suaves**: Transiciones elegantes con Framer Motion
+- **Tipografía Profesional**: Inspirada en el logo de FRANTANA
+- **Paleta de Colores**: Basada en la identidad visual del artista
+
+## 🚀 Servicios Disponibles
+
+- **Grabación de Estudio** - €80 (120 min)
+- **Show en Vivo** - €150 (90 min)
+- **Ensayo Privado** - €50 (60 min)
+- **Clase Personalizada** - €40 (60 min)
+- **Evento Especial** - €200 (180 min)
+
+## 🛠️ Tecnologías Utilizadas
+
+- **Next.js 14** - Framework de React
+- **TypeScript** - Tipado estático
+- **Tailwind CSS** - Estilos utilitarios
+- **Framer Motion** - Animaciones
+- **React DatePicker** - Componente de fechas
+- **Lucide React** - Iconos modernos
+
+## 📦 Instalación
+
+1. **Clonar el repositorio**:
+   ```bash
+   git clone [url-del-repositorio]
+   cd frantana-booking
+   ```
+
+2. **Instalar dependencias**:
+   ```bash
+   npm install
+   ```
+
+3. **Ejecutar en modo desarrollo**:
+   ```bash
+   npm run dev
+   ```
+
+4. **Abrir en el navegador**:
+   ```
+   http://localhost:3000
+   ```
+
+## 🎨 Diseño
+
+El diseño está inspirado en la identidad visual de FRANTANA:
+
+- **Colores principales**: Rosa (#FF69B4) y Rojo (#8B1538)
+- **Tipografía**: Inter (similar al logo)
+- **Estilo**: Moderno, minimalista y profesional
+- **Efectos**: Glassmorphism, gradientes y sombras suaves
+
+## 📱 Características Responsive
+
+- **Mobile First**: Diseño optimizado para móviles
+- **Breakpoints**: sm, md, lg, xl
+- **Navegación**: Menú hamburguesa en móviles
+- **Formularios**: Adaptados a pantallas táctiles
+
+## 🔧 Personalización
+
+### Colores
+Los colores se pueden personalizar en `tailwind.config.ts`:
+
+```typescript
+colors: {
+  'frantana-red': '#8B1538',
+  'frantana-pink': '#FF69B4',
+  'frantana-silver': '#C0C0C0',
+  // ...
+}
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Servicios
+Los servicios se pueden modificar en `BookingForm.tsx`:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```typescript
+const services = [
+  { id: 'recording', name: 'Grabación de Estudio', price: 80, duration: 120 },
+  // ...
+];
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📋 Funcionalidades del Motor de Reservas
 
-## Learn More
+1. **Selección de Servicio**: Elige entre diferentes tipos de servicios
+2. **Selección de Fecha**: Calendario interactivo con fechas disponibles
+3. **Selección de Hora**: Horarios disponibles para la fecha seleccionada
+4. **Datos Personales**: Formulario de contacto completo
+5. **Confirmación**: Resumen de la reserva y confirmación
 
-To learn more about Next.js, take a look at the following resources:
+## 🎯 Próximas Mejoras
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [ ] Integración con base de datos
+- [ ] Sistema de pagos
+- [ ] Notificaciones por email
+- [ ] Panel de administración
+- [ ] Calendario de disponibilidad en tiempo real
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📞 Contacto
 
-## Deploy on Vercel
+Para más información sobre FRANTANA:
+- **Email**: info@frantana.com
+- **Teléfono**: +34 600 000 000
+- **Ubicación**: Madrid, España
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📄 Licencia
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Este proyecto está desarrollado específicamente para FRANTANA. Todos los derechos reservados.
+
+---
+
+*Desarrollado con ❤️ para FRANTANA*
