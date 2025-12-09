@@ -25,7 +25,7 @@ const Header = () => {
       const startPosition = window.pageYOffset;
       const distance = elementPosition - startPosition;
       const duration = 1000; // 1 segundo
-      let start = null;
+      let start: number | null = null;
 
       const animation = (currentTime: number) => {
         if (start === null) start = currentTime;
