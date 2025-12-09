@@ -24,19 +24,33 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Crear transporter de nodemailer
+    // Crear transporter de nodemailer con configuración explícita para Gmail
+    // Usamos el puerto 587 con TLS en lugar de 465 con SSL para mejor compatibilidad
     const transporter = nodemailer.createTransport({
-      service: 'gmail',
+      host: 'smtp.gmail.com',
+      port: 587,
+      secure: false, // true para 465, false para otros puertos
       auth: {
         user: GMAIL_USER,
         pass: GMAIL_APP_PASSWORD.replace(/\s/g, ''), // Eliminar espacios de la contraseña
       },
+      tls: {
+        // No rechazar certificados no autorizados (útil en desarrollo)
+        rejectUnauthorized: false
+      },
+      // Timeout aumentado para evitar errores de conexión
+      connectionTimeout: 10000, // 10 segundos
+      greetingTimeout: 10000,
+      socketTimeout: 10000,
     });
+
+    // Normalizar el campo 'to' para aceptar tanto string como array
+    const recipients = Array.isArray(to) ? to : [to];
 
     // Configurar el email
     const mailOptions = {
       from: `Frantana <${GMAIL_USER}>`,
-      to: to,
+      to: recipients, // Nodemailer acepta arrays de destinatarios
       subject: subject,
       html: message.replace(/\n/g, '<br>'),
       text: message, // Versión en texto plano

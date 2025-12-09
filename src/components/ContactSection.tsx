@@ -1,7 +1,8 @@
 'use client';
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Phone, Send, Instagram, Youtube, Facebook } from 'lucide-react';
+import { Mail, Phone, Send, Instagram, Youtube, Facebook, CheckCircle, XCircle } from 'lucide-react';
 import type { LucideProps } from 'lucide-react';
 
 const WhatsappIcon = ({ className, ...props }: LucideProps) => (
@@ -18,6 +19,74 @@ const WhatsappIcon = ({ className, ...props }: LucideProps) => (
 );
 
 const ContactSection = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+    setErrorMessage('');
+
+    try {
+      // Formatear el mensaje del email
+      const emailMessage = `
+Hola Frantana,
+
+Has recibido un nuevo mensaje desde el formulario de contacto:
+
+Nombre: ${formData.name}
+Email: ${formData.email}
+${formData.subject ? `Asunto: ${formData.subject}` : ''}
+
+Mensaje:
+${formData.message}
+
+---
+Este mensaje fue enviado desde el formulario de contacto de tu sitio web.
+      `.trim();
+
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          to: ['appfrantana@gmail.com', 'Frantanaoriginal@gmail.com'], // Enviar a ambos emails
+          subject: formData.subject || `Nuevo mensaje de contacto de ${formData.name}`,
+          message: emailMessage,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Error al enviar el mensaje');
+      }
+
+      setSubmitStatus('success');
+      setFormData({ name: '', email: '', subject: '', message: '' });
+      
+      // Resetear el estado después de 5 segundos
+      setTimeout(() => {
+        setSubmitStatus('idle');
+      }, 5000);
+    } catch (error: any) {
+      console.error('Error enviando mensaje:', error);
+      setSubmitStatus('error');
+      setErrorMessage(error.message || 'Error al enviar el mensaje. Por favor, inténtalo de nuevo.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <section id="contacto" className="py-12 sm:py-20 lg:py-24 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
@@ -140,7 +209,38 @@ const ContactSection = () => {
           >
             <h3 className="text-2xl sm:text-3xl font-bold text-white mb-6 sm:mb-8">Envíame un Mensaje</h3>
             
-            <form className="space-y-6">
+            {submitStatus === 'success' && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mb-6 p-4 bg-green-500/20 border border-green-500/50 rounded-xl flex items-center gap-3"
+              >
+                <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0" />
+                <p className="text-green-300 text-sm sm:text-base">
+                  ¡Mensaje enviado correctamente! Te responderé pronto.
+                </p>
+              </motion.div>
+            )}
+
+            {submitStatus === 'error' && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mb-6 p-4 bg-red-500/20 border border-red-500/50 rounded-xl flex items-start gap-3"
+              >
+                <XCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-red-300 text-sm sm:text-base font-semibold mb-1">
+                    Error al enviar el mensaje
+                  </p>
+                  <p className="text-red-300/80 text-xs sm:text-sm">
+                    {errorMessage}
+                  </p>
+                </div>
+              </motion.div>
+            )}
+            
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
                 <div>
                   <label className="block text-gray-300 text-sm font-medium mb-2">
@@ -149,8 +249,11 @@ const ContactSection = () => {
                   <input
                     type="text"
                     required
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-pink-400 focus:bg-white/20 transition-all duration-300"
                     placeholder="Tu nombre"
+                    disabled={isSubmitting}
                   />
                 </div>
                 <div>
@@ -160,8 +263,11 @@ const ContactSection = () => {
                   <input
                     type="email"
                     required
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-pink-400 focus:bg-white/20 transition-all duration-300"
                     placeholder="tu@email.com"
+                    disabled={isSubmitting}
                   />
                 </div>
               </div>
@@ -172,8 +278,11 @@ const ContactSection = () => {
                 </label>
                 <input
                   type="text"
+                  value={formData.subject}
+                  onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                   className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-pink-400 focus:bg-white/20 transition-all duration-300"
                   placeholder="¿En qué puedo ayudarte?"
+                  disabled={isSubmitting}
                 />
               </div>
 
@@ -184,19 +293,32 @@ const ContactSection = () => {
                 <textarea
                   required
                   rows={5}
+                  value={formData.message}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-pink-400 focus:bg-white/20 transition-all duration-300 resize-none"
                   placeholder="Cuéntame más sobre tu proyecto..."
+                  disabled={isSubmitting}
                 />
               </div>
 
               <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+                whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
+                whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
                 type="submit"
-                className="w-full bg-gradient-to-r from-pink-500 via-pink-600 to-purple-600 text-white font-bold py-3 sm:py-4 px-6 sm:px-8 rounded-xl shadow-xl hover:shadow-pink-500/50 transition-all duration-300 flex items-center justify-center space-x-3"
+                disabled={isSubmitting}
+                className="w-full bg-gradient-to-r from-pink-500 via-pink-600 to-purple-600 text-white font-bold py-3 sm:py-4 px-6 sm:px-8 rounded-xl shadow-xl hover:shadow-pink-500/50 transition-all duration-300 flex items-center justify-center space-x-3 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <Send className="w-5 h-5" />
-                <span>Enviar Mensaje</span>
+                {isSubmitting ? (
+                  <>
+                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    <span>Enviando...</span>
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-5 h-5" />
+                    <span>Enviar Mensaje</span>
+                  </>
+                )}
               </motion.button>
             </form>
           </motion.div>

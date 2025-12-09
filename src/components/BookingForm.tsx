@@ -153,6 +153,81 @@ const BookingForm = () => {
       }
 
       console.log('Booking created successfully:', data);
+
+      // Enviar email de notificación a Frantana
+      try {
+        const fechaFormateada = bookingData.date?.toLocaleDateString('es-ES', { 
+          weekday: 'long', 
+          year: 'numeric', 
+          month: 'long', 
+          day: 'numeric' 
+        });
+
+        const emailMessage = `
+🎉 NUEVA RESERVA RECIBIDA 🎉
+
+Se ha recibido una nueva solicitud de reserva desde el sitio web.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📋 INFORMACIÓN DEL EVENTO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Tipo de Evento: ${bookingData.eventType}
+Nombre del Evento: ${bookingData.eventName}
+Fecha: ${fechaFormateada}
+Hora: ${bookingData.time}
+Ubicación: ${bookingData.location}
+Número de Invitados: ${bookingData.guests} personas
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+👤 INFORMACIÓN DEL CLIENTE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Nombre: ${bookingData.name}
+Email: ${bookingData.email}
+Teléfono: ${bookingData.phone}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+💬 SOLICITUDES ESPECIALES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+${bookingData.message || 'No hay solicitudes especiales.'}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Estado: PENDIENTE
+Fecha de creación: ${new Date().toLocaleString('es-ES')}
+
+Por favor, revisa el panel de administración para aprobar o rechazar esta reserva.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        `.trim();
+
+        const emailResponse = await fetch('/api/send-email', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            to: ['appfrantana@gmail.com', 'Frantanaoriginal@gmail.com'],
+            subject: `🎉 Nueva Reserva: ${bookingData.eventName} - ${fechaFormateada}`,
+            message: emailMessage,
+          }),
+        });
+
+        if (!emailResponse.ok) {
+          console.warn('Error enviando email de notificación, pero la reserva se creó correctamente');
+        } else {
+          console.log('Email de notificación enviado correctamente');
+        }
+      } catch (emailError) {
+        // No bloquear el flujo si falla el email, solo loguear
+        console.warn('Error enviando email de notificación:', emailError);
+      }
+
       setCurrentStep(5);
     } catch (error) {
       console.error('Error:', error);
