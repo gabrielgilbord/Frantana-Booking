@@ -163,7 +163,11 @@ const AdminPanel = ({ onLogout }: { onLogout: () => void }) => {
     // Refrescar la lista de reservas después de todo
     await refetchBookings();
     
-    // Enviar email al cliente
+    // Cerrar el modal primero (especialmente importante en móviles)
+    setSelectedBooking(null);
+    setNotes('');
+    
+    // Enviar email al cliente (después de cerrar el modal para mejor UX)
     if (booking) {
       try {
         // Generar URL del calendario si está aprobado
@@ -199,8 +203,8 @@ const AdminPanel = ({ onLogout }: { onLogout: () => void }) => {
               ? 'Reserva Aprobada - Frantana' 
               : 'Reserva Rechazada - Frantana',
             message: status === 'approved'
-              ? `Hola ${booking.client_name},\n\n¡Buenas noticias! Tu reserva para "${booking.event_name}" ha sido aprobada.\n\nFecha: ${new Date(booking.event_date).toLocaleDateString('es-ES')}\nHora: ${booking.event_time}\n\n${notes ? `Notas: ${notes}\n\n` : ''}${calendarLink}\n\nEsperamos verte pronto.\n\nSaludos,\nEquipo Frantana`
-              : `Hola ${booking.client_name},\n\nLamentamos informarte que tu reserva para "${booking.event_name}" no ha podido ser aprobada en esta ocasión.\n\n${notes ? `Notas: ${notes}\n\n` : ''}Si tienes alguna pregunta, no dudes en contactarnos.\n\nSaludos,\nEquipo Frantana`
+              ? `Hola ${booking.client_name},\n\n¡Buenas noticias! Tu reserva para "${booking.event_name}" ha sido aprobada.\n\nFecha: ${new Date(booking.event_date).toLocaleDateString('es-ES')}\nHora: ${booking.event_time}\n\n${notes ? `Notas: ${notes}\n\n` : ''}${calendarLink}\n\nEsperamos verte pronto.\n\nSaludos,\nFrantana`
+              : `Hola ${booking.client_name},\n\nLamentamos informarte que tu reserva para "${booking.event_name}" no ha podido ser aprobada en esta ocasión.\n\n${notes ? `Notas: ${notes}\n\n` : ''}Si tienes alguna pregunta, no dudes en contactarnos.\n\nSaludos,\nFrantana`
           }),
         });
       } catch (error) {
@@ -208,9 +212,6 @@ const AdminPanel = ({ onLogout }: { onLogout: () => void }) => {
         // No mostramos error al usuario si falla el email, solo lo logeamos
       }
     }
-    
-    setSelectedBooking(null);
-    setNotes('');
   };
 
   // Funciones para disponibilidad (solo marcar NO disponibles)
@@ -1707,11 +1708,22 @@ const AdminPanel = ({ onLogout }: { onLogout: () => void }) => {
 
         {/* Modal para notas */}
         {selectedBooking && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 overflow-x-hidden" style={{ left: 0, right: 0, top: 0, bottom: 0, maxWidth: '100vw', width: '100vw' }}>
+          <div 
+            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 overflow-x-hidden" 
+            style={{ left: 0, right: 0, top: 0, bottom: 0, maxWidth: '100vw', width: '100vw' }}
+            onClick={(e) => {
+              // Cerrar modal al hacer click fuera del contenido
+              if (e.target === e.currentTarget) {
+                setSelectedBooking(null);
+                setNotes('');
+              }
+            }}
+          >
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               className={`${styles.notesModal} bg-white rounded-xl overflow-hidden p-4`}
+              onClick={(e) => e.stopPropagation()}
             >
               <h3 className="text-base sm:text-xl font-bold text-gray-800 mb-3" style={{ marginBottom: '0.75rem' }}>Gestionar Reserva</h3>
               <p className="text-sm text-gray-600 mb-3">
