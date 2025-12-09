@@ -171,26 +171,26 @@ const BookingForm = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-100 via-purple-50 to-pink-50 py-12 sm:py-16 lg:py-24">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
+    <div className="min-h-screen bg-gradient-to-br from-slate-100 via-purple-50 to-pink-50 py-16 sm:py-24">
+      <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-10 sm:mb-12 lg:mb-16"
+          className="text-center mb-16"
         >
-          <h1 className="text-3xl sm:text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-pink-600 mb-6 md:mb-8">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-pink-600 mb-6 md:mb-8">
             Reserva tu Evento
           </h1>
-          <p className="text-gray-700 text-base sm:text-lg md:text-2xl max-w-4xl mx-auto leading-relaxed font-light">
+          <p className="text-gray-700 text-lg sm:text-xl md:text-2xl max-w-4xl mx-auto leading-relaxed font-light">
             Cuéntanos sobre tu evento especial y te enviaremos una propuesta personalizada. 
             <span className="font-semibold text-pink-600"> Sin compromiso, solo consulta.</span>
           </p>
         </motion.div>
 
         {/* Progress Steps */}
-        <div className="flex justify-center mb-8 sm:mb-10 md:mb-16">
-          <div className="flex items-center space-x-2 sm:space-x-3 md:space-x-6">
+        <div className="flex justify-center mb-12 md:mb-16">
+          <div className="flex items-center space-x-4 md:space-x-6">
             {steps.map((step, index) => {
               const Icon = step.icon;
               const isActive = currentStep === step.id;
@@ -199,7 +199,7 @@ const BookingForm = () => {
               return (
                 <div key={step.id} className="flex items-center">
                   <motion.div
-                    className={`w-8 h-8 sm:w-11 sm:h-11 md:w-16 md:h-16 rounded-full flex items-center justify-center transition-all duration-300 ${
+                    className={`w-10 h-10 md:w-16 md:h-16 rounded-full flex items-center justify-center transition-all duration-300 ${
                       isActive 
                         ? 'bg-gradient-to-r from-pink-500 to-red-500 text-white shadow-xl' 
                         : isCompleted
@@ -208,10 +208,10 @@ const BookingForm = () => {
                     }`}
                     whileHover={{ scale: 1.05 }}
                   >
-                    <Icon className="w-3.5 h-3.5 sm:w-5 sm:h-5 md:w-7 md:h-7" />
+                    <Icon className="w-5 h-5 md:w-7 md:h-7" />
                   </motion.div>
                   {index < steps.length - 1 && (
-                    <div className={`w-4 sm:w-6 md:w-12 h-1 mx-2 sm:mx-3 rounded-full ${
+                    <div className={`w-8 md:w-12 h-1 mx-3 rounded-full ${
                       isCompleted ? 'bg-green-500' : 'bg-gray-300'
                     }`} />
                   )}
@@ -228,7 +228,7 @@ const BookingForm = () => {
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: -20 }}
           transition={{ duration: 0.3 }}
-          className="card p-5 sm:p-6 md:p-10 lg:p-12"
+          className="card p-6 md:p-12"
         >
           <AnimatePresence mode="wait">
             {/* Step 1: Event Type Selection */}
@@ -237,27 +237,27 @@ const BookingForm = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="space-y-7 sm:space-y-8"
+                className="space-y-8"
               >
-                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-5 sm:mb-7 lg:mb-8 text-center">
+                <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 sm:mb-8 text-center">
                   ¿Qué tipo de evento es?
                 </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {eventTypes.map((eventType) => (
                     <motion.button
                       key={eventType.id}
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => handleEventTypeSelect(eventType)}
-                      className="p-5 sm:p-6 lg:p-8 border-2 border-white/20 rounded-3xl hover:border-pink-300 hover:bg-gradient-to-br hover:from-pink-50 hover:to-purple-50 transition-all duration-300 text-center group shadow-2xl hover:shadow-pink-500/25 backdrop-blur-sm bg-white/80"
+                      className="p-8 border-2 border-white/20 rounded-3xl hover:border-pink-300 hover:bg-gradient-to-br hover:from-pink-50 hover:to-purple-50 transition-all duration-300 text-center group shadow-2xl hover:shadow-pink-500/25 backdrop-blur-sm bg-white/80"
                     >
-                      <div className="text-4xl sm:text-5xl lg:text-6xl mb-3 sm:mb-4 group-hover:scale-110 transition-transform duration-300">
+                      <div className="text-6xl mb-4 group-hover:scale-110 transition-transform duration-300">
                         {eventType.icon}
                       </div>
-                      <h3 className="text-lg sm:text-xl font-black text-gray-800 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-pink-500 group-hover:to-purple-500 transition-all duration-300 mb-2">
+                      <h3 className="text-xl font-black text-gray-800 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-pink-500 group-hover:to-purple-500 transition-all duration-300 mb-2">
                         {eventType.name}
                       </h3>
-                      <p className="text-gray-600 text-xs sm:text-sm font-medium leading-relaxed">
+                      <p className="text-gray-600 text-sm font-medium">
                         {eventType.description}
                       </p>
                     </motion.button>
@@ -274,14 +274,14 @@ const BookingForm = () => {
                 exit={{ opacity: 0 }}
                 className="space-y-6"
               >
-                <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 mb-5 sm:mb-6 text-center">
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-6 text-center">
                   Elige tu Fecha
                 </h2>
                 
                 <div className="space-y-6">
                   {/* Fecha seleccionada */}
-                  <div className="bg-gradient-to-r from-pink-50 to-purple-50 rounded-xl p-5 sm:p-6 border-2 border-pink-200">
-                    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="bg-gradient-to-r from-pink-50 to-purple-50 rounded-xl p-6 border-2 border-pink-200">
+                    <div className="flex items-center justify-between">
                       <div>
                         <p className="text-sm text-gray-600 mb-1">Fecha seleccionada:</p>
                         <p className={`text-lg font-bold ${bookingData.date ? 'text-gray-800' : 'text-gray-400'}`}>
@@ -296,17 +296,17 @@ const BookingForm = () => {
                           }
                         </p>
                       </div>
-                      <div className="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full flex items-center justify-center self-start sm:self-auto">
-                        <Calendar className="w-7 h-7 sm:w-8 sm:h-8 text-white" />
+                      <div className="w-16 h-16 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full flex items-center justify-center">
+                        <Calendar className="w-8 h-8 text-white" />
                       </div>
                     </div>
                   </div>
 
                   {/* Calendario siempre visible */}
-                  <div className="bg-white rounded-xl shadow-lg p-5 sm:p-6 border border-gray-200">
+                  <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-200">
                     <div className="grid grid-cols-7 gap-2 sm:gap-3 mb-4">
                       {['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'].map(day => (
-                        <div key={day} className="text-center text-xs sm:text-sm font-bold text-gray-700 py-1.5 sm:py-2">
+                        <div key={day} className="text-center text-xs sm:text-sm font-bold text-gray-700 py-2">
                           {day}
                         </div>
                       ))}
@@ -315,7 +315,7 @@ const BookingForm = () => {
                           key={index}
                           onClick={() => !day.isDisabled && handleDateSelect(day.date)}
                           disabled={day.isDisabled}
-                          className={`py-1.5 sm:py-2 md:py-3 text-xs sm:text-sm rounded-lg transition-all duration-300 relative ${
+                          className={`py-2 sm:py-3 text-xs sm:text-sm rounded-lg transition-all duration-300 relative ${
                             day.isDisabled
                               ? 'text-gray-200 cursor-not-allowed'
                               : day.isCurrentMonth
@@ -341,10 +341,10 @@ const BookingForm = () => {
                   </div>
                 </div>
 
-                <div className="flex flex-col sm:flex-row sm:justify-between gap-3 sm:gap-4 mt-8">
+                <div className="flex flex-col sm:flex-row sm:justify-between gap-4 mt-8">
                   <button
                     onClick={() => setCurrentStep(1)}
-                    className="px-6 py-3 sm:px-8 sm:py-4 bg-white border-2 border-gray-300 text-gray-700 font-bold rounded-xl hover:bg-pink-50 hover:border-pink-400 hover:text-pink-600 transition-all duration-300"
+                    className="px-8 py-4 bg-white border-2 border-gray-300 text-gray-700 font-bold rounded-xl hover:bg-pink-50 hover:border-pink-400 hover:text-pink-600 transition-all duration-300"
                   >
                     ← Anterior
                   </button>
@@ -352,7 +352,7 @@ const BookingForm = () => {
                     {bookingData.date && (
                       <button
                         onClick={() => handleDateClick(bookingData.date!)}
-                        className="px-5 py-3 sm:px-6 sm:py-4 bg-blue-500 text-white font-bold rounded-xl hover:bg-blue-600 transition-all duration-300"
+                        className="px-6 py-4 bg-blue-500 text-white font-bold rounded-xl hover:bg-blue-600 transition-all duration-300"
                       >
                         Ver Reservas
                       </button>
@@ -360,7 +360,7 @@ const BookingForm = () => {
                     {bookingData.date && (
                       <button
                         onClick={() => setCurrentStep(3)}
-                        className="px-6 py-3 sm:px-8 sm:py-4 bg-gradient-to-r from-pink-500 via-pink-600 to-purple-600 text-white font-bold rounded-xl hover:shadow-lg hover:scale-105 transition-all duration-300"
+                        className="px-8 py-4 bg-gradient-to-r from-pink-500 via-pink-600 to-purple-600 text-white font-bold rounded-xl hover:shadow-lg hover:scale-105 transition-all duration-300"
                       >
                         Continuar →
                       </button>
@@ -378,29 +378,29 @@ const BookingForm = () => {
                 exit={{ opacity: 0 }}
                 className="space-y-6"
               >
-                <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 mb-5 sm:mb-6 text-center">
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-6 text-center">
                   Selecciona la Hora
                 </h2>
                 
                 <div className="space-y-6">
                   {/* Hora seleccionada */}
-                  <div className="bg-gradient-to-r from-pink-50 to-purple-50 rounded-xl p-5 sm:p-6 border-2 border-pink-200">
-                    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="bg-gradient-to-r from-pink-50 to-purple-50 rounded-xl p-6 border-2 border-pink-200">
+                    <div className="flex items-center justify-between">
                       <div>
                         <p className="text-sm text-gray-600 mb-1">Hora seleccionada:</p>
                         <p className="text-2xl sm:text-3xl font-bold text-gray-800">
                           {bookingData.time || '12:00'}
                         </p>
                       </div>
-                      <div className="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full flex items-center justify-center self-start sm:self-auto">
-                        <Clock className="w-7 h-7 sm:w-8 sm:h-8 text-white" />
+                      <div className="w-16 h-16 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full flex items-center justify-center">
+                        <Clock className="w-8 h-8 text-white" />
                       </div>
                     </div>
                   </div>
 
                   {/* Timepicker */}
-                  <div className="bg-white rounded-xl shadow-lg p-5 sm:p-6 md:p-8 border border-gray-200">
-                    <div className="flex flex-col md:flex-row items-center justify-center space-y-5 sm:space-y-6 md:space-y-0 md:space-x-8">
+                  <div className="bg-white rounded-xl shadow-lg p-6 md:p-8 border border-gray-200">
+                    <div className="flex flex-col md:flex-row items-center justify-center space-y-6 md:space-y-0 md:space-x-8">
                       {/* Selector de Horas */}
                       <div className="text-center">
                         <h3 className="text-lg font-semibold text-gray-700 mb-4">Hora</h3>
@@ -412,7 +412,7 @@ const BookingForm = () => {
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                                 onClick={() => handleTimeSelect(i, bookingData.minute)}
-                                className={`w-10 h-10 sm:w-12 sm:h-12 rounded-lg font-bold transition-all duration-300 ${
+                                className={`w-12 h-12 rounded-lg font-bold transition-all duration-300 ${
                                   bookingData.hour === i
                                     ? 'bg-gradient-to-r from-pink-500 to-purple-500 text-white scale-110 shadow-lg'
                                     : 'bg-white hover:bg-pink-100 text-gray-700 hover:text-pink-600'
@@ -441,7 +441,7 @@ const BookingForm = () => {
                                     whileHover={{ scale: 1.05 }}
                                     whileTap={{ scale: 0.95 }}
                                     onClick={() => handleTimeSelect(bookingData.hour, i)}
-                                    className={`w-10 h-10 sm:w-12 sm:h-12 rounded-lg font-bold transition-all duration-300 ${
+                                    className={`w-12 h-12 rounded-lg font-bold transition-all duration-300 ${
                                       bookingData.minute === i
                                         ? 'bg-gradient-to-r from-pink-500 to-purple-500 text-white scale-110 shadow-lg'
                                         : 'bg-white hover:bg-pink-100 text-gray-700 hover:text-pink-600'
@@ -461,7 +461,7 @@ const BookingForm = () => {
                     {/* Opciones rápidas */}
                     <div className="mt-8 pt-6 border-t border-gray-200">
                       <h4 className="text-center text-sm font-semibold text-gray-600 mb-4">Horarios Populares</h4>
-                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                         {[
                           { hour: 10, minute: 0, label: '10:00' },
                           { hour: 12, minute: 0, label: '12:00' },
@@ -477,7 +477,7 @@ const BookingForm = () => {
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                             onClick={() => handleTimeSelect(time.hour, time.minute)}
-                            className={`p-2.5 sm:p-3 rounded-lg border-2 transition-all duration-300 ${
+                            className={`p-3 rounded-lg border-2 transition-all duration-300 ${
                               bookingData.hour === time.hour && bookingData.minute === time.minute
                                 ? 'border-pink-500 bg-pink-500 text-white'
                                 : 'border-gray-200 hover:border-pink-300 hover:bg-pink-50 text-gray-700'
@@ -491,10 +491,10 @@ const BookingForm = () => {
                   </div>
                 </div>
 
-                <div className="flex flex-col sm:flex-row sm:justify-between gap-3 sm:gap-4 mt-8">
+                <div className="flex flex-col sm:flex-row sm:justify-between gap-4 mt-8">
                   <button
                     onClick={() => setCurrentStep(2)}
-                    className="px-6 py-3 sm:px-8 sm:py-4 bg-white border-2 border-gray-300 text-gray-700 font-bold rounded-xl hover:bg-pink-50 hover:border-pink-400 hover:text-pink-600 transition-all duration-300"
+                    className="px-8 py-4 bg-white border-2 border-gray-300 text-gray-700 font-bold rounded-xl hover:bg-pink-50 hover:border-pink-400 hover:text-pink-600 transition-all duration-300"
                   >
                     ← Anterior
                   </button>
@@ -502,7 +502,7 @@ const BookingForm = () => {
                     <div className="flex sm:justify-end">
                       <button
                         onClick={() => setCurrentStep(4)}
-                        className="px-6 py-3 sm:px-8 sm:py-4 bg-gradient-to-r from-pink-500 via-pink-600 to-purple-600 text-white font-bold rounded-xl hover:shadow-lg hover:scale-105 transition-all duration-300"
+                        className="px-8 py-4 bg-gradient-to-r from-pink-500 via-pink-600 to-purple-600 text-white font-bold rounded-xl hover:shadow-lg hover:scale-105 transition-all duration-300"
                       >
                         Continuar →
                       </button>
@@ -520,12 +520,12 @@ const BookingForm = () => {
                 exit={{ opacity: 0 }}
                 className="space-y-6"
               >
-                <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 mb-5 sm:mb-6 text-center">
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-6 text-center">
                   Detalles del Evento
                 </h2>
                 
-                <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
                         Nombre del Evento *
@@ -573,7 +573,7 @@ const BookingForm = () => {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
                         Tu Nombre *
@@ -638,11 +638,11 @@ const BookingForm = () => {
                     />
                   </div>
 
-                  <div className="flex flex-col sm:flex-row sm:justify-between gap-3 sm:gap-4 mt-8">
+                  <div className="flex flex-col sm:flex-row sm:justify-between gap-4 mt-8">
                     <button
                       type="button"
                       onClick={() => setCurrentStep(3)}
-                      className="px-6 py-3 sm:px-8 sm:py-4 bg-white border-2 border-gray-300 text-gray-700 font-bold rounded-xl hover:bg-pink-50 hover:border-pink-400 hover:text-pink-600 transition-all duration-300"
+                      className="px-8 py-4 bg-white border-2 border-gray-300 text-gray-700 font-bold rounded-xl hover:bg-pink-50 hover:border-pink-400 hover:text-pink-600 transition-all duration-300"
                     >
                       ← Anterior
                     </button>
@@ -650,7 +650,7 @@ const BookingForm = () => {
                       <button
                         type="submit"
                         disabled={isLoading}
-                        className="w-full sm:w-auto px-6 py-3 sm:px-8 sm:py-4 bg-gradient-to-r from-pink-500 via-pink-600 to-purple-600 text-white font-bold rounded-xl hover:shadow-lg hover:scale-105 transition-all duration-300 flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-pink-500 via-pink-600 to-purple-600 text-white font-bold rounded-xl hover:shadow-lg hover:scale-105 transition-all duration-300 flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         {isLoading ? (
                           <>
@@ -676,28 +676,28 @@ const BookingForm = () => {
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
-                className="text-center space-y-5 sm:space-y-6"
+                className="text-center space-y-6"
               >
-                <div className="w-16 h-16 sm:w-20 sm:h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto">
-                  <Star className="w-8 h-8 sm:w-10 sm:h-10 text-green-500" />
+                <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto">
+                  <Star className="w-10 h-10 text-green-500" />
                 </div>
                 
-                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800">
+                <h2 className="text-2xl sm:text-3xl font-bold text-gray-800">
                   ¡Solicitud Enviada!
                 </h2>
                 
-                <p className="text-gray-600 text-base sm:text-lg">
+                <p className="text-gray-600 text-lg">
                   Gracias por tu interés. Te contactaremos pronto con una propuesta personalizada.
                 </p>
 
-                <div className="bg-gradient-to-r from-pink-50 to-purple-50 rounded-xl p-5 sm:p-6 text-left border border-pink-200">
+                <div className="bg-gradient-to-r from-pink-50 to-purple-50 rounded-xl p-6 text-left border border-pink-200">
                   <h3 className="font-semibold text-gray-800 mb-4">Resumen de tu Solicitud:</h3>
-                  <div className="space-y-3 text-sm">
-                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 sm:gap-2">
+                  <div className="space-y-2 text-sm">
+                    <div className="flex justify-between">
                       <span className="text-gray-600">Tipo de Evento:</span>
                       <span className="font-medium">{bookingData.eventType}</span>
                     </div>
-                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 sm:gap-2">
+                    <div className="flex justify-between">
                       <span className="text-gray-600">Fecha:</span>
                       <span className="font-medium">
                         {bookingData.date?.toLocaleDateString('es-ES', { 
@@ -708,23 +708,23 @@ const BookingForm = () => {
                         })}
                       </span>
                     </div>
-                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 sm:gap-2">
+                    <div className="flex justify-between">
                       <span className="text-gray-600">Hora:</span>
                       <span className="font-medium">{bookingData.time}</span>
                     </div>
-                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 sm:gap-2">
+                    <div className="flex justify-between">
                       <span className="text-gray-600">Nombre del Evento:</span>
                       <span className="font-medium">{bookingData.eventName}</span>
                     </div>
-                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 sm:gap-2">
+                    <div className="flex justify-between">
                       <span className="text-gray-600">Invitados:</span>
                       <span className="font-medium">{bookingData.guests} personas</span>
                     </div>
-                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 sm:gap-2">
+                    <div className="flex justify-between">
                       <span className="text-gray-600">Ubicación:</span>
                       <span className="font-medium">{bookingData.location}</span>
                     </div>
-                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 sm:gap-2">
+                    <div className="flex justify-between">
                       <span className="text-gray-600">Contacto:</span>
                       <span className="font-medium">{bookingData.name}</span>
                     </div>
@@ -749,7 +749,7 @@ const BookingForm = () => {
                       message: ''
                     });
                   }}
-                  className="px-6 py-3 sm:px-8 sm:py-4 bg-gradient-to-r from-pink-500 via-pink-600 to-purple-600 text-white font-bold rounded-xl hover:shadow-lg hover:scale-105 transition-all duration-300"
+                  className="px-8 py-4 bg-gradient-to-r from-pink-500 via-pink-600 to-purple-600 text-white font-bold rounded-xl hover:shadow-lg hover:scale-105 transition-all duration-300"
                 >
                   Nueva Solicitud
                 </button>

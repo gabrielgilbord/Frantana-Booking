@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import nodemailer from 'nodemailer';
 
 export async function POST(request: NextRequest) {
   try {
@@ -11,61 +12,61 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Configuración de Resend (o el servicio de email que uses)
-    // Por ahora, simulamos el envío. Necesitarás configurar tu API key de Resend o similar
-    
-    // Ejemplo con Resend (descomentar cuando tengas la API key):
-    /*
-    const RESEND_API_KEY = process.env.RESEND_API_KEY;
-    
-    if (!RESEND_API_KEY) {
+    // Configuración de Gmail con contraseña de aplicación
+    const GMAIL_USER = process.env.GMAIL_USER;
+    const GMAIL_APP_PASSWORD = process.env.GMAIL_APP_PASSWORD;
+
+    if (!GMAIL_USER || !GMAIL_APP_PASSWORD) {
+      console.error('Error: Gmail credentials no configuradas en .env.local');
       return NextResponse.json(
-        { error: 'API key no configurada' },
+        { error: 'Configuración de email no disponible. Verifica las variables GMAIL_USER y GMAIL_APP_PASSWORD en .env.local' },
         { status: 500 }
       );
     }
 
-    const response = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${RESEND_API_KEY}`,
-        'Content-Type': 'application/json',
+    // Crear transporter de nodemailer
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: GMAIL_USER,
+        pass: GMAIL_APP_PASSWORD.replace(/\s/g, ''), // Eliminar espacios de la contraseña
       },
-      body: JSON.stringify({
-        from: 'noreply@frantana.com', // Cambia esto por tu dominio verificado
-        to: [to],
-        subject: subject,
-        html: message.replace(/\n/g, '<br>'),
-      }),
     });
 
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.message);
-    }
+    // Configurar el email
+    const mailOptions = {
+      from: `Frantana <${GMAIL_USER}>`,
+      to: to,
+      subject: subject,
+      html: message.replace(/\n/g, '<br>'),
+      text: message, // Versión en texto plano
+    };
 
-    const data = await response.json();
-    */
+    // Enviar el email
+    const info = await transporter.sendMail(mailOptions);
 
-    // Por ahora, solo logueamos el email (para desarrollo)
-    console.log('Email a enviar:', {
+    console.log('Email enviado correctamente:', {
       to,
       subject,
-      message,
+      messageId: info.messageId,
     });
 
     return NextResponse.json(
       { 
         success: true, 
         message: 'Email enviado correctamente',
-        // id: data.id // Cuando uses Resend de verdad
+        messageId: info.messageId,
       },
       { status: 200 }
     );
   } catch (error: any) {
     console.error('Error enviando email:', error);
     return NextResponse.json(
-      { error: 'Error al enviar el email', details: error.message },
+      { 
+        error: 'Error al enviar el email', 
+        details: error.message,
+        stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+      },
       { status: 500 }
     );
   }

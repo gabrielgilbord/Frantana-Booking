@@ -23,8 +23,14 @@ export const useOccupiedSlots = () => {
         .order('start_time', { ascending: true });
 
       if (error) {
-        console.error('Error fetching occupied slots:', error);
-        console.error('Detalles del error:', JSON.stringify(error, null, 2));
+        // Si el error es de conexión (Supabase suspendido), mostrar mensaje más amigable
+        if (error.message?.includes('Failed to fetch') || error.message?.includes('fetch')) {
+          console.warn('Supabase temporalmente no disponible. Esto puede deberse a que el proyecto está en proceso de restauración.');
+          setError('El servicio está temporalmente no disponible. Por favor, intenta de nuevo en unos momentos.');
+        } else {
+          console.error('Error fetching occupied slots:', error);
+          setError(error.message || 'Error al obtener eventos ocupados');
+        }
         setOccupiedSlots([]);
       } else {
         console.log('Occupied slots obtenidos:', data?.length || 0);
@@ -34,9 +40,17 @@ export const useOccupiedSlots = () => {
           console.warn('No se encontraron eventos ocupados. Verifica que la tabla exista y tenga datos.');
         }
         setOccupiedSlots(data || []);
+        setError(null); // Limpiar error si la consulta fue exitosa
       }
-    } catch (err) {
-      console.error('Error fetching occupied slots:', err);
+    } catch (err: any) {
+      // Manejar errores de red
+      if (err?.message?.includes('Failed to fetch') || err?.message?.includes('fetch')) {
+        console.warn('Error de conexión con Supabase. El proyecto puede estar en proceso de restauración.');
+        setError('El servicio está temporalmente no disponible. Por favor, intenta de nuevo en unos momentos.');
+      } else {
+        console.error('Error fetching occupied slots:', err);
+        setError(err?.message || 'Error desconocido al obtener eventos ocupados');
+      }
       setOccupiedSlots([]);
     } finally {
       setLoading(false);
